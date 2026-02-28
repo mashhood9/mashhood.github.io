@@ -3,1423 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mashhood Siddiqui — Systems Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Mashhood Siddiqui — Backend Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0c0f14;
-  --bg2: #10141b;
-  --surface: #151a24;
-  --card: #181e2a;
-  --border: #232b3a;
-  --border-light: #2a3448;
-  --text: #e4e4ec;
-  --text-soft: #8891a4;
-  --amber: #f0a030;
-  --amber-light: #f5c06a;
-  --amber-dim: rgba(240,160,48,0.1);
-  --blue: #4a90d9;
-  --blue-dim: rgba(74,144,217,0.08);
-  --green: #34d399;
-  --python-yellow: #f7d54a;
-  --python-blue: #3776ab;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Outfit', sans-serif;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ===== SUBTLE GRAIN ===== */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.018'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 10000;
-}
-
-/* ===== AMBIENT GLOW BLOBS ===== */
-.ambient {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.ambient .blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.07;
-  animation: blobFloat 20s ease-in-out infinite;
-}
-
-.ambient .blob:nth-child(1) {
-  width: 600px; height: 600px;
-  background: var(--amber);
-  top: -200px; right: -100px;
-  animation-delay: 0s;
-}
-
-.ambient .blob:nth-child(2) {
-  width: 500px; height: 500px;
-  background: var(--blue);
-  bottom: -150px; left: -100px;
-  animation-delay: -7s;
-}
-
-.ambient .blob:nth-child(3) {
-  width: 400px; height: 400px;
-  background: var(--python-yellow);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  animation-delay: -14s;
-}
-
-@keyframes blobFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(40px, -30px) scale(1.05); }
-  50% { transform: translate(-20px, 40px) scale(0.95); }
-  75% { transform: translate(30px, 20px) scale(1.02); }
-}
-
-/* ===== NAV ===== */
-.nav {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  padding: 22px 7vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 500;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.nav.scrolled {
-  background: rgba(12,15,20,0.88);
-  backdrop-filter: blur(24px) saturate(1.2);
-  border-bottom: 1px solid rgba(240,160,48,0.06);
-  padding: 16px 7vw;
-}
-
-.nav-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--amber);
-}
-
-.nav-links {
-  display: flex;
-  gap: 34px;
-}
-
-.nav-links a {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
-  color: var(--text-soft);
-  text-decoration: none;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: all 0.35s;
-  position: relative;
-}
-
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -6px; left: 0;
-  width: 0; height: 2px;
-  background: var(--amber);
-  border-radius: 1px;
-  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.nav-links a:hover { color: var(--amber); }
-.nav-links a:hover::after { width: 100%; }
-
-/* ===== SCROLL PROGRESS ===== */
-.progress {
-  position: fixed;
-  top: 0; left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--amber), var(--python-yellow), var(--blue));
-  z-index: 1000;
-  border-radius: 0 2px 2px 0;
-  box-shadow: 0 0 12px rgba(240,160,48,0.3);
-}
-
-/* ===== REVEAL SYSTEM ===== */
-.r { opacity: 0; transform: translateY(50px); transition: all 0.85s cubic-bezier(0.22, 1, 0.36, 1); }
-.r.v { opacity: 1; transform: translateY(0); }
-.r-l { opacity: 0; transform: translateX(-70px); transition: all 0.85s cubic-bezier(0.22, 1, 0.36, 1); }
-.r-l.v { opacity: 1; transform: translateX(0); }
-.r-r { opacity: 0; transform: translateX(70px); transition: all 0.85s cubic-bezier(0.22, 1, 0.36, 1); }
-.r-r.v { opacity: 1; transform: translateX(0); }
-.r-s { opacity: 0; transform: scale(0.9); transition: all 0.85s cubic-bezier(0.22, 1, 0.36, 1); }
-.r-s.v { opacity: 1; transform: scale(1); }
-
-/* ===== HERO ===== */
-.hero {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  align-items: center;
-  padding: 0 7vw;
-  gap: 60px;
-  position: relative;
-  z-index: 2;
-}
-
-.hero-content {
-  padding-top: 40px;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 20px;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
-  color: var(--amber);
-  letter-spacing: 0.08em;
-  background: var(--amber-dim);
-  opacity: 0;
-  animation: fadeUp 0.7s ease forwards 0.4s;
-}
-
-.hero-badge .pulse {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 8px rgba(52,211,153,0.5);
-  animation: pulse 2.5s ease infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.5; }
-}
-
-.hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 5.5vw, 5.5rem);
-  font-weight: 500;
-  line-height: 1.08;
-  margin: 28px 0 24px;
-}
-
-.hero h1 .line {
-  display: block;
-  overflow: hidden;
-}
-
-.hero h1 .line span {
-  display: inline-block;
-  transform: translateY(115%);
-  animation: lineUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.hero h1 .line:nth-child(1) span { animation-delay: 0.6s; }
-.hero h1 .line:nth-child(2) span { animation-delay: 0.75s; }
-.hero h1 .line:nth-child(3) span { animation-delay: 0.9s; }
-
-@keyframes lineUp { to { transform: translateY(0); } }
-@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-
-.hero h1 em {
-  font-style: italic;
-  color: var(--amber);
-  position: relative;
-}
-
-.hero h1 em::after {
-  content: '';
-  position: absolute;
-  bottom: 4px; left: 0;
-  width: 100%; height: 8px;
-  background: rgba(240,160,48,0.12);
-  border-radius: 4px;
-  z-index: -1;
-}
-
-.hero-desc {
-  font-size: 1.05rem;
-  color: var(--text-soft);
-  line-height: 1.85;
-  max-width: 520px;
-  opacity: 0;
-  animation: fadeUp 0.7s ease forwards 1.2s;
-}
-
-.hero-desc strong { color: var(--text); font-weight: 500; }
-
-.hero-cta {
-  display: flex;
-  gap: 16px;
-  margin-top: 36px;
-  opacity: 0;
-  animation: fadeUp 0.7s ease forwards 1.4s;
-}
-
-.btn {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.78rem;
-  padding: 14px 30px;
-  border-radius: 8px;
-  text-decoration: none;
-  letter-spacing: 0.06em;
-  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-primary {
-  background: var(--amber);
-  color: var(--bg);
-  font-weight: 500;
-  border: none;
-}
-
-.btn-primary:hover {
-  background: var(--amber-light);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(240,160,48,0.2);
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-
-.btn-outline:hover {
-  border-color: var(--amber);
-  color: var(--amber);
-  transform: translateY(-2px);
-}
-
-/* Hero Visual */
-.hero-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 0.8s;
-}
-
-.profile-wrapper {
-  position: relative;
-  width: 380px;
-  height: 380px;
-}
-
-.profile-ring {
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  border: 1px solid rgba(240,160,48,0.12);
-  animation: ringRotate 25s linear infinite;
-}
-
-.profile-ring::before {
-  content: '';
-  position: absolute;
-  top: -4px; left: 50%;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--amber);
-  box-shadow: 0 0 15px rgba(240,160,48,0.5);
-  transform: translateX(-50%);
-}
-
-.profile-ring-2 {
-  position: absolute;
-  inset: -45px;
-  border-radius: 50%;
-  border: 1px dashed rgba(74,144,217,0.08);
-  animation: ringRotate 40s linear infinite reverse;
-}
-
-@keyframes ringRotate { to { transform: rotate(360deg); } }
-
-.profile-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--border);
-  position: relative;
-  z-index: 2;
-  transition: all 0.5s;
-}
-
-.profile-img:hover {
-  border-color: var(--amber);
-  box-shadow: 0 0 60px rgba(240,160,48,0.15);
-  transform: scale(1.03);
-}
-
-.profile-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(240,160,48,0.08) 0%, transparent 70%);
-  z-index: 1;
-  animation: glowPulse 4s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
-}
-
-/* Floating badges around profile */
-.float-badge {
-  position: absolute;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 16px;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--text-soft);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  z-index: 10;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-  animation: floatBadge 5s ease-in-out infinite;
-  white-space: nowrap;
-  backdrop-filter: blur(10px);
-}
-
-.float-badge .emoji { font-size: 1rem; }
-
-.fb-1 { top: 20px; right: -30px; animation-delay: 0s; }
-.fb-2 { bottom: 60px; left: -50px; animation-delay: -1.5s; }
-.fb-3 { bottom: -10px; right: -20px; animation-delay: -3s; }
-
-@keyframes floatBadge {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-/* ===== STATS BAR ===== */
-.stats-bar {
-  padding: 40px 7vw;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  position: relative;
-  z-index: 2;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: rgba(21,26,36,0.5);
-  backdrop-filter: blur(10px);
-}
-
-.stat-item {
-  text-align: center;
-  padding: 20px;
-  transition: all 0.4s;
-}
-
-.stat-item:hover { transform: translateY(-4px); }
-
-.stat-val {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.4rem;
-  font-weight: 600;
-  color: var(--amber);
-  line-height: 1;
-}
-
-.stat-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--text-soft);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-top: 10px;
-}
-
-/* ===== SECTION COMMON ===== */
-.sec-pad { padding: 120px 7vw; position: relative; z-index: 2; }
-
-.sec-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.68rem;
-  color: var(--amber);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.sec-label .dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--amber);
-}
-
-.sec-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.2rem, 4vw, 3.8rem);
-  font-weight: 500;
-  line-height: 1.15;
-  margin-bottom: 50px;
-}
-
-.sec-title em {
-  font-style: italic;
-  color: var(--text-soft);
-}
-
-/* ===== ABOUT ===== */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 70px;
-  align-items: start;
-}
-
-.about-text {
-  font-size: 1.05rem;
-  color: var(--text-soft);
-  line-height: 2;
-}
-
-.about-text strong { color: var(--text); font-weight: 500; }
-.about-text .hl { color: var(--amber); font-weight: 500; }
-
-.terminal {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.78rem;
-}
-
-.terminal-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 18px;
-  background: rgba(255,255,255,0.015);
-  border-bottom: 1px solid var(--border);
-}
-
-.terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
-.terminal-dot:nth-child(1) { background: #ff5f57; }
-.terminal-dot:nth-child(2) { background: #febc2e; }
-.terminal-dot:nth-child(3) { background: #28c840; }
-
-.terminal-bar span {
-  font-size: 0.68rem;
-  color: var(--text-soft);
-  margin-left: 10px;
-}
-
-.terminal-body {
-  padding: 22px;
-  line-height: 2;
-  color: var(--text-soft);
-}
-
-.t-kw { color: #c678dd; }
-.t-fn { color: #61afef; }
-.t-str { color: var(--green); }
-.t-num { color: var(--amber); }
-.t-cm { color: #3e4452; font-style: italic; }
-.t-dec { color: var(--python-yellow); }
-.t-cls { color: #e5c07b; }
-.t-self { color: #e06c75; }
-
-.terminal-cursor::after {
-  content: '▋';
-  color: var(--amber);
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes blink { 50% { opacity: 0; } }
-
-/* Python badge */
-.python-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  background: rgba(55,118,171,0.1);
-  border: 1px solid rgba(55,118,171,0.2);
-  border-radius: 6px;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--python-yellow);
-  margin-top: 12px;
-}
-
-.python-badge svg { width: 14px; height: 14px; }
-
-/* ===== EXPERIENCE ===== */
-.exp-list {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-}
-
-.exp-block {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 40px;
-  padding: 40px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.exp-block::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 4px; height: 0%;
-  background: linear-gradient(to bottom, var(--amber), var(--blue));
-  border-radius: 0 2px 2px 0;
-  transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.exp-block:hover::before { height: 100%; }
-
-.exp-block:hover {
-  border-color: rgba(240,160,48,0.15);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 0 0 1px rgba(240,160,48,0.05);
-}
-
-.exp-side .exp-date {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
-  color: var(--amber);
-  letter-spacing: 0.05em;
-  margin-bottom: 10px;
-}
-
-.exp-side .exp-co {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.exp-side .exp-type {
-  font-size: 0.8rem;
-  color: var(--text-soft);
-}
-
-.exp-main .exp-role {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
-.exp-main .exp-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 20px;
-}
-
-.exp-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem;
-  padding: 4px 12px;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  color: var(--text-soft);
-  letter-spacing: 0.05em;
-  transition: all 0.3s;
-}
-
-.exp-tag:hover {
-  border-color: var(--amber);
-  color: var(--amber);
-  background: var(--amber-dim);
-}
-
-.exp-tag.primary {
-  border-color: rgba(55,118,171,0.3);
-  color: var(--python-yellow);
-  background: rgba(247,213,74,0.06);
-}
-
-.exp-highlights {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.exp-hl {
-  padding: 18px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 10px;
-  transition: all 0.4s;
-}
-
-.exp-hl:hover {
-  background: rgba(240,160,48,0.03);
-  border-color: rgba(240,160,48,0.1);
-  transform: translateY(-2px);
-}
-
-.exp-hl .metric {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--amber);
-  margin-bottom: 6px;
-}
-
-.exp-hl .desc {
-  font-size: 0.82rem;
-  color: var(--text-soft);
-  line-height: 1.55;
-}
-
-/* ===== SKILLS ===== */
-.skills-layout {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.skill-card {
-  padding: 30px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.skill-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(240,160,48,0.06) 0%, transparent 55%);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-.skill-card:hover::after { opacity: 1; }
-
-.skill-card:hover {
-  border-color: rgba(240,160,48,0.15);
-  transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-}
-
-.skill-card .icon {
-  font-size: 1.6rem;
-  margin-bottom: 16px;
-}
-
-.skill-card h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 14px;
-}
-
-.skill-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.s-pill {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem;
-  padding: 5px 12px;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  color: var(--text-soft);
-  transition: all 0.3s;
-}
-
-.s-pill:hover {
-  border-color: var(--amber);
-  color: var(--amber);
-  background: var(--amber-dim);
-}
-
-.s-pill.python {
-  border-color: rgba(247,213,74,0.25);
-  color: var(--python-yellow);
-  background: rgba(247,213,74,0.06);
-}
-
-/* ===== ACHIEVEMENTS ===== */
-.ach-list { display: grid; gap: 14px; }
-
-.ach-card {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  padding: 26px 32px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  transition: all 0.4s;
-  position: relative;
-}
-
-.ach-card::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 50%;
-  transform: translateY(-50%);
-  width: 0; height: 60%;
-  background: linear-gradient(to bottom, var(--amber), var(--blue));
-  border-radius: 0 3px 3px 0;
-  transition: width 0.4s;
-}
-
-.ach-card:hover::before { width: 4px; }
-
-.ach-card:hover {
-  border-color: rgba(240,160,48,0.12);
-  transform: translateX(8px);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-}
-
-.ach-rank {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--amber);
-  min-width: 100px;
-  text-align: center;
-}
-
-.ach-info h4 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.ach-info p {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
-  color: var(--text-soft);
-}
-
-/* ===== CONTACT ===== */
-.contact { text-align: center; }
-
-.contact-heading {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.8rem, 5vw, 4.5rem);
-  font-weight: 500;
-  line-height: 1.12;
-  margin-bottom: 20px;
-}
-
-.contact-heading em {
-  font-style: italic;
-  color: var(--amber);
-}
-
-.contact-sub {
-  font-size: 1rem;
-  color: var(--text-soft);
-  max-width: 480px;
-  margin: 0 auto;
-  line-height: 1.8;
-}
-
-.contact-links {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 36px;
-}
-
-.c-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 26px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.78rem;
-  color: var(--text);
-  text-decoration: none;
-  transition: all 0.4s;
-  background: var(--card);
-}
-
-.c-link:hover {
-  border-color: var(--amber);
-  color: var(--amber);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(240,160,48,0.1);
-}
-
-.c-link svg { width: 18px; height: 18px; fill: currentColor; }
-
-/* ===== FOOTER ===== */
-footer {
-  padding: 30px 7vw;
-  text-align: center;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--text-soft);
-  border-top: 1px solid var(--border);
-  z-index: 2;
-  position: relative;
-  letter-spacing: 0.08em;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; text-align: center; }
-  .hero-content { order: 2; }
-  .hero-visual { order: 1; }
-  .profile-wrapper { width: 260px; height: 260px; }
-  .float-badge { display: none; }
-  .hero-desc { margin: 0 auto; }
-  .hero-cta { justify-content: center; }
-  .about-grid { grid-template-columns: 1fr; }
-  .exp-block { grid-template-columns: 1fr; }
-  .exp-highlights { grid-template-columns: 1fr; }
-  .skills-layout { grid-template-columns: 1fr 1fr; }
-  .stats-bar { grid-template-columns: 1fr 1fr; }
-  .nav-links { display: none; }
-  .ach-card { flex-direction: column; text-align: center; }
-  .ach-rank { min-width: auto; }
-}
-
-@media (max-width: 600px) {
-  .skills-layout { grid-template-columns: 1fr; }
-  .stats-bar { grid-template-columns: 1fr; }
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #21262d;
+    --text: #e6edf3; --muted: #7d8590; --accent: #58a6ff; --green: #3fb950;
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  nav {
+    border-bottom: 1px solid var(--border); padding: 16px 0;
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(13,17,23,0.95); backdrop-filter: blur(8px);
+  }
+  .nav-inner { max-width: 860px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+  .nav-name { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text); }
+  .nav-name span { color: var(--accent); }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a { font-size: 13px; color: var(--muted); transition: color 0.15s; }
+  .nav-links a:hover { color: var(--text); text-decoration: none; }
+  .nav-badge {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green);
+    background: rgba(63,185,80,0.1); border: 1px solid rgba(63,185,80,0.25);
+    padding: 3px 10px; border-radius: 20px; display: flex; align-items: center; gap: 6px;
+  }
+  .nav-badge::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 2s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  main { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+  .hero { padding: 72px 0 56px; border-bottom: 1px solid var(--border); }
+  .hero-tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); margin-bottom: 16px; }
+  h1 { font-size: 36px; font-weight: 600; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .hero-subtitle { font-size: 18px; color: var(--muted); font-weight: 300; margin-bottom: 20px; }
+  .hero-bio { font-size: 14px; color: var(--muted); line-height: 1.75; max-width: 580px; }
+  .hero-links { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; transition: all 0.15s; text-decoration: none !important; }
+  .btn-primary { background: var(--accent); color: #0d1117; }
+  .btn-primary:hover { background: #79b8ff; }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-top: 48px; }
+  .stat { background: var(--surface); padding: 20px; text-align: center; }
+  .stat-val { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .stat-val .ac { color: var(--accent); }
+  .stat-label { font-size: 11px; color: var(--muted); }
+
+  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+  h2 { font-size: 22px; font-weight: 600; margin-bottom: 32px; }
+
+  .exp-list { display: flex; flex-direction: column; gap: 40px; }
+  .exp-item { display: grid; grid-template-columns: 180px 1fr; gap: 28px; }
+  .exp-company { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .exp-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 7px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.15); border-radius: 4px; color: var(--accent); }
+  .exp-role { font-size: 15px; font-weight: 500; margin-bottom: 14px; }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .exp-bullets li { font-size: 13px; color: var(--muted); line-height: 1.65; padding-left: 16px; position: relative; }
+  .exp-bullets li::before { content: '–'; position: absolute; left: 0; color: var(--border); }
+  .exp-bullets li strong { color: var(--text); font-weight: 500; }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
+  .skill-group-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill { font-size: 12px; padding: 4px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; color: var(--text); }
+  .pill.p { border-color: rgba(88,166,255,0.3); color: var(--accent); }
+
+  .terminal { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-top: 36px; }
+  .term-bar { padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 6px; }
+  .td { width: 10px; height: 10px; border-radius: 50%; }
+  .td:nth-child(1){background:#ff5f57} .td:nth-child(2){background:#febc2e} .td:nth-child(3){background:#28c840}
+  .term-body { padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 2; }
+  .tp{color:var(--green)} .tc{color:var(--text)} .to{color:var(--muted)} .tv{color:var(--accent)}
+  .tcursor { display: inline-block; width: 7px; height: 13px; background: var(--accent); animation: blink 1s step-end infinite; vertical-align: -2px; }
+
+  .achieve-list { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .achieve-item { display: flex; align-items: center; gap: 20px; padding: 16px 20px; background: var(--surface); border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  .achieve-item:last-child { border-bottom: none; }
+  .achieve-item:hover { background: #1c2128; }
+  .achieve-rank { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 500; color: var(--accent); min-width: 60px; }
+  .achieve-title { font-size: 13px; font-weight: 500; }
+  .achieve-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .contact-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 28px; }
+  .contact-card { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; text-decoration: none !important; transition: border-color 0.15s; }
+  .contact-card:hover { border-color: var(--accent); }
+  .contact-icon { font-size: 18px; }
+  .contact-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .contact-val { font-size: 13px; color: var(--text); font-weight: 500; }
+
+  footer { max-width: 860px; margin: 0 auto; padding: 24px; display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  @media(max-width:640px) {
+    h1{font-size:26px} .exp-item{grid-template-columns:1fr;gap:8px}
+    .stats{grid-template-columns:repeat(2,1fr)} .skills-grid{grid-template-columns:1fr}
+    .contact-grid{grid-template-columns:1fr} .nav-links{display:none}
+  }
 </style>
 </head>
 <body>
 
-<!-- Ambient Blobs -->
-<div class="ambient">
-  <div class="blob"></div>
-  <div class="blob"></div>
-  <div class="blob"></div>
-</div>
-
-<!-- Progress -->
-<div class="progress" id="progress"></div>
-
-<!-- Nav -->
-<nav class="nav" id="nav">
-  <div class="nav-logo">Mashhood.</div>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#experience">Experience</a>
-    <a href="#skills">Skills</a>
-    <a href="#achievements">Achievements</a>
-    <a href="#contact">Contact</a>
+<nav>
+  <div class="nav-inner">
+    <div class="nav-name">mashhood<span>.</span>dev</div>
+    <div class="nav-links">
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-badge">Open to SDE-2 · London</div>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-content">
-    <div class="hero-badge">
-      <span class="pulse"></span>
-      Open to new challenges
+<main>
+  <div class="hero">
+    <div class="hero-tag">// backend platform engineer</div>
+    <h1>Mashhood Siddiqui</h1>
+    <div class="hero-subtitle">Distributed Systems · Go · Kafka · AWS</div>
+    <p class="hero-bio">5+ years building high-throughput, fault-tolerant backend infrastructure at scale. Independently owns full project lifecycle — from system design through production — on platforms sustaining millions of operations per day across multi-region deployments.</p>
+    <div class="hero-links">
+      <a href="mailto:sidmashhood2@gmail.com" class="btn btn-primary">Get in touch</a>
+      <a href="https://linkedin.com/in/mashhood-siddiqui" class="btn btn-ghost">LinkedIn ↗</a>
+      <a href="https://github.com/mashhood-siddiqui" class="btn btn-ghost">GitHub ↗</a>
     </div>
-    <h1>
-      <span class="line"><span>Designing systems</span></span>
-      <span class="line"><span>that handle <em>billions</em></span></span>
-      <span class="line"><span>without flinching.</span></span>
-    </h1>
-    <p class="hero-desc">
-      <strong>Backend engineer</strong> with 5+ years spent making payment infrastructure invisible — the kind that moves money across borders, scales under fire, and never wakes you up at 3AM.
-    </p>
-    <div class="hero-cta">
-      <a href="mailto:sidmashhood2@gmail.com" class="btn btn-primary">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        Get in touch
-      </a>
-      <a href="#experience" class="btn btn-outline">View my work →</a>
+    <div class="stats">
+      <div class="stat"><div class="stat-val"><span class="ac">3,000</span>+ rps</div><div class="stat-label">Peak throughput</div></div>
+      <div class="stat"><div class="stat-val">p95 <span class="ac">400ms</span></div><div class="stat-label">Go service latency</div></div>
+      <div class="stat"><div class="stat-val"><span class="ac">99.9999</span>%</div><div class="stat-label">Uptime SLA</div></div>
+      <div class="stat"><div class="stat-val">$<span class="ac">5B</span>+ / yr</div><div class="stat-label">Volume owned</div></div>
     </div>
   </div>
 
-  <div class="hero-visual">
-    <div class="profile-wrapper">
-      <div class="profile-ring"></div>
-      <div class="profile-ring-2"></div>
-      <div class="profile-glow"></div>
-      <img
-        src="https://media.licdn.com/dms/image/v2/D5603AQF8_oaQbpWHkA/profile-displayphoto-crop_800_800/B56ZtJVEYGIkAQ-/0/1766461820256?e=1773878400&v=beta&t=CDNBAnraR0PsXUWxoYsqiw89iFV8EbiWZmTmUj4cUuM"
-        alt="Mashhood Siddiqui"
-        class="profile-img"
-      />
-      <div class="float-badge fb-1">
-        <span class="emoji">🐍</span> Python, Go, JS
-      </div>
-      <div class="float-badge fb-2">
-        <span class="emoji">💰</span> $5.4B+ processed
-      </div>
-      <div class="float-badge fb-3">
-        <span class="emoji">⚡</span> 99.99% uptime
-      </div>
-    </div>
-  </div>
-</section>
+  <section id="experience">
+    <div class="section-label">Career</div>
+    <h2>Experience</h2>
+    <div class="exp-list">
 
-<!-- Stats Bar -->
-<div class="stats-bar">
-  <div class="stat-item r">
-    <div class="stat-val"><span class="counter" data-target="5">0</span>+</div>
-    <div class="stat-label">Years of experience</div>
-  </div>
-  <div class="stat-item r">
-    <div class="stat-val">$<span class="counter" data-target="5.4">0</span>B+</div>
-    <div class="stat-label">Transactions volume</div>
-  </div>
-  <div class="stat-item r">
-    <div class="stat-val"><span class="counter" data-target="48">0</span>+</div>
-    <div class="stat-label">Countries served</div>
-  </div>
-  <div class="stat-item r">
-    <div class="stat-val"><span class="counter" data-target="3000">0</span>+</div>
-    <div class="stat-label">Requests per second</div>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section class="sec-pad" id="about">
-  <div class="r">
-    <div class="sec-label"><span class="dot"></span> About me</div>
-    <div class="sec-title">The person behind <em>the code.</em></div>
-  </div>
-
-  <div class="about-grid">
-    <div class="about-text r-l">
-      I'm a backend engineer who treats <strong>payment systems like life-support machines</strong> — because when you're moving billions, they basically are.<br><br>
-      My journey started building <span class="hl">hyper-local marketplaces</span> from scratch, and evolved into architecting <span class="hl">distributed payment infrastructure</span> that spans 48+ countries with 50+ banking integrations. I've shipped systems where a single race condition doesn't just mean a bug — it means someone's money vanishes.<br><br>
-      <strong>Python</strong> is my weapon of choice for rapid prototyping, data pipelines, and service layers, while <strong>Go</strong> handles the high-throughput, latency-critical paths. I think in <span class="hl">event streams</span>, design for graceful degradation, and obsess over the kind of observability that makes incidents boring.<br><br>
-      Outside of production systems, I stay sharp through <strong>competitive programming</strong> — 450+ LeetCode problems and counting.
-    </div>
-
-    <div class="r-r">
-      <div class="terminal">
-        <div class="terminal-bar">
-          <div class="terminal-dot"></div>
-          <div class="terminal-dot"></div>
-          <div class="terminal-dot"></div>
-          <span>mashhood.py</span>
+      <div class="exp-item">
+        <div>
+          <div class="exp-company">TBO.COM</div>
+          <div class="exp-date">Apr 2024 – Present</div>
+          <div class="exp-tags"><span class="tag">Go</span><span class="tag">Kafka</span><span class="tag">DynamoDB</span><span class="tag">AWS</span><span class="tag">gRPC</span></div>
         </div>
-        <div class="terminal-body">
-          <span class="t-kw">from</span> <span class="t-fn">dataclasses</span> <span class="t-kw">import</span> dataclass<br>
-          <span class="t-kw">from</span> <span class="t-fn">typing</span> <span class="t-kw">import</span> List<br><br>
-
-          <span class="t-dec">@dataclass</span><br>
-          <span class="t-kw">class</span> <span class="t-cls">BackendEngineer</span>:<br>
-          &nbsp;&nbsp;name: <span class="t-fn">str</span> = <span class="t-str">"Mashhood Siddiqui"</span><br>
-          &nbsp;&nbsp;location: <span class="t-fn">str</span> = <span class="t-str">"New Delhi, India"</span><br>
-          &nbsp;&nbsp;uptime: <span class="t-fn">float</span> = <span class="t-num">99.9999</span><br>
-          &nbsp;&nbsp;coffee_level: <span class="t-fn">str</span> = <span class="t-str">"always critical"</span><br><br>
-
-          &nbsp;&nbsp;<span class="t-dec">@property</span><br>
-          &nbsp;&nbsp;<span class="t-kw">def</span> <span class="t-fn">stack</span>(<span class="t-self">self</span>) -> <span class="t-cls">List</span>:<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-kw">return</span> [<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Python"</span>, <span class="t-str">"Go"</span>,<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Kafka"</span>, <span class="t-str">"DynamoDB"</span>,<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"AWS"</span>, <span class="t-str">"Kubernetes"</span>,<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;]<br><br>
-
-          &nbsp;&nbsp;<span class="t-kw">def</span> <span class="t-fn">ship</span>(<span class="t-self">self</span>):<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-cm"># zero downtime since 2024</span><br>
-          &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-kw">while</span> <span class="t-num">True</span>:<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-self">self</span>.<span class="t-fn">build</span>()<span class="terminal-cursor"></span>
+        <div>
+          <div class="exp-role">Software Engineer II — Backend Platform · Tech Lead</div>
+          <ul class="exp-bullets">
+            <li>Independently designed and shipped high-throughput platform engine sustaining <strong>3,000+ RPS</strong> with 99.9999% uptime — full IC ownership from design doc to production, no hand-off.</li>
+            <li>Migrated latency-critical service from .NET to Go; redesigned concurrency model, dropping <strong>p95 latency from 1.2s → 400ms</strong> with zero downtime during cutover.</li>
+            <li>Built Kafka-driven event pipeline with <strong>exactly-once-like semantics</strong> under partial failures — powers all critical async workflows across multi-region deployments.</li>
+            <li>Designed distributed tracing layer (trace_id, span_id, request_id) — <strong>2ms overhead</strong>, full request visibility, faster incident resolution.</li>
+            <li>DynamoDB-backed idempotency layer across <strong>50+ integrations in 48 countries</strong> — eliminated duplicate processing, improved correctness by 5%.</li>
+            <li>Go microservice for multi-currency cross-border transactions at <strong>$400M+/year</strong> using goroutine parallelism and async Kafka pipelines.</li>
+            <li>Flask-based inter-service auth platform handling <strong>50M+ token ops/month</strong> with automated issuance and refresh flows.</li>
+            <li>Mentored SDE-1 through weekly design reviews and production readiness checks — reduced ramp time by ~40%.</li>
+          </ul>
         </div>
       </div>
-      <div class="python-badge" style="margin-top: 16px;">
-        <svg viewBox="0 0 24 24" fill="#f7d54a"><path d="M12 0C5.372 0 5.725.26 5.725 5.725v2.138h6.413v.713H3.862C1.732 8.576 0 10.18 0 12.862v4.276C0 19.82 1.732 22 3.862 22h2.138v-3.45c0-2.188 1.893-4.117 4.138-4.117h6.413c1.95 0 3.45-1.612 3.45-3.562V5.45C20 3.388 18.388 1.888 16.275 1.275 15.15.95 13.575 0 12 0zm-3.3 3.188c.725 0 1.313.6 1.313 1.337 0 .738-.588 1.338-1.313 1.338-.737 0-1.337-.6-1.337-1.338 0-.737.6-1.337 1.337-1.337z"/></svg>
-        Design-first engineer
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- EXPERIENCE -->
-<section class="sec-pad" id="experience" style="background: var(--bg2);">
-  <div class="r">
-    <div class="sec-label"><span class="dot"></span> Experience</div>
-    <div class="sec-title">Where I've made <em>impact.</em></div>
-  </div>
-
-  <div class="exp-list">
-    <!-- TBO -->
-    <div class="exp-block r">
-      <div class="exp-side">
-        <div class="exp-date">Apr 2024 — Present</div>
-        <div class="exp-co">TBO.COM</div>
-        <div class="exp-type">FinTech · Distributed Payments</div>
-      </div>
-      <div class="exp-main">
-        <div class="exp-role">Software Engineer II</div>
-        <div class="exp-tags">
-          <span class="exp-tag primary">Python</span>
-          <span class="exp-tag primary">Go</span>
-          <span class="exp-tag">Kafka</span>
-          <span class="exp-tag">AWS</span>
-          <span class="exp-tag">DynamoDB</span>
-          <span class="exp-tag">gRPC</span>
+      <div class="exp-item">
+        <div>
+          <div class="exp-company">ApnaMart</div>
+          <div class="exp-date">Sep 2022 – Jan 2024</div>
+          <div class="exp-tags"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">Celery</span><span class="tag">PostgreSQL</span></div>
         </div>
-        <div class="exp-highlights">
-          <div class="exp-hl">
-            <div class="metric">3,000+ RPS</div>
-            <div class="desc">Rebuilt credit-limit engine from .NET to Go — cut p95 latency by 67%, maintained six-nines uptime.</div>
-          </div>
-          <div class="exp-hl">
-            <div class="metric">$3.5B+/yr</div>
-            <div class="desc">Architected the payment orchestration platform with dynamic routing — 93% faster processing.</div>
-          </div>
-          <div class="exp-hl">
-            <div class="metric">48+ Countries</div>
-            <div class="desc">Virtual credit card platform, 50+ banking partners, DynamoDB-backed idempotency & dedup.</div>
-          </div>
-          <div class="exp-hl">
-            <div class="metric">$400M+ Cross-Border</div>
-            <div class="desc">Multi-currency microservice with parallel Kafka pipelines meeting global compliance.</div>
-          </div>
+        <div>
+          <div class="exp-role">Software Engineer — Backend Platform</div>
+          <ul class="exp-bullets">
+            <li>Sole IC on vendor settlement engine from scratch — event-driven payout system for <strong>$20M/year</strong>, shipped end-to-end independently.</li>
+            <li>Led payment backend overhaul across three providers — improved reliability for <strong>100K+ daily transactions</strong>, cut failure rate by 2%.</li>
+            <li>Celery-based async fulfillment pipeline with demand forecasting — improved perishable inventory efficiency by <strong>20%</strong>.</li>
+            <li>Offer framework serving <strong>250K+ users</strong> — 15% conversion lift, $60K+ incremental revenue annually.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div>
+          <div class="exp-company">Frysto</div>
+          <div class="exp-date">Jan 2020 – Jul 2022</div>
+          <div class="exp-tags"><span class="tag">Node.js</span><span class="tag">MongoDB</span><span class="tag">Express</span></div>
+        </div>
+        <div>
+          <div class="exp-role">Software Engineer — Backend</div>
+          <ul class="exp-bullets">
+            <li>Architected hyper-local marketplace backend managing <strong>4K+ SKUs</strong> with integrated order workflows — sole backend engineer.</li>
+            <li>Implemented event-driven cloud telephony layer to replace manual merchant-customer coordination.</li>
+          </ul>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- ApnaMart -->
-    <div class="exp-block r">
-      <div class="exp-side">
-        <div class="exp-date">Sep 2022 — Jan 2024</div>
-        <div class="exp-co">ApnaMart</div>
-        <div class="exp-type">E-commerce · Payments</div>
-      </div>
-      <div class="exp-main">
-        <div class="exp-role">Software Engineer</div>
-        <div class="exp-tags">
-          <span class="exp-tag primary">Python</span>
-          <span class="exp-tag">Django</span>
-          <span class="exp-tag">Celery</span>
-          <span class="exp-tag">PostgreSQL</span>
-        </div>
-        <div class="exp-highlights">
-          <div class="exp-hl">
-            <div class="metric">$20M/yr Payouts</div>
-            <div class="desc">Built vendor fund-settlement from scratch with event-driven notifications and admin tooling.</div>
-          </div>
-          <div class="exp-hl">
-            <div class="metric">100K+ Daily Txns</div>
-            <div class="desc">Overhauled payment stack with multi-gateway integration, reducing failures by 2%.</div>
-          </div>
-          <div class="exp-hl">
-            <div class="metric">250K+ Users</div>
-            <div class="desc">Co-designed scalable offers framework — 15% conversion lift, $60K+ incremental revenue.</div>
-          </div>
-          <div class="exp-hl">
-            <div class="metric">20% Shelf-life Gain</div>
-            <div class="desc">Demand-based drop-shipping with async workflows for perishable inventory optimization.</div>
-          </div>
-        </div>
+  <section id="skills">
+    <div class="section-label">Capabilities</div>
+    <h2>Technical Stack</h2>
+    <div class="skills-grid">
+      <div><div class="skill-group-name">Languages</div><div class="skill-pills"><span class="pill p">Go</span><span class="pill p">Python</span><span class="pill">JavaScript</span><span class="pill">C</span><span class="pill">C#</span></div></div>
+      <div><div class="skill-group-name">Distributed Systems</div><div class="skill-pills"><span class="pill p">Apache Kafka</span><span class="pill p">gRPC</span><span class="pill">Microservices</span><span class="pill">Idempotency</span><span class="pill">Distributed Tracing</span><span class="pill">Exactly-Once</span></div></div>
+      <div><div class="skill-group-name">Datastores</div><div class="skill-pills"><span class="pill p">DynamoDB</span><span class="pill p">PostgreSQL</span><span class="pill">MongoDB</span><span class="pill">Redis</span><span class="pill">Elasticsearch</span><span class="pill">Memcache</span></div></div>
+      <div><div class="skill-group-name">Cloud & DevOps</div><div class="skill-pills"><span class="pill p">AWS</span><span class="pill p">Docker</span><span class="pill p">Kubernetes</span><span class="pill">EC2</span><span class="pill">SNS</span><span class="pill">CI/CD</span></div></div>
+      <div><div class="skill-group-name">Frameworks</div><div class="skill-pills"><span class="pill p">Go Fiber</span><span class="pill">Flask</span><span class="pill">Django</span><span class="pill">ASP.NET</span><span class="pill">Express</span></div></div>
+      <div><div class="skill-group-name">Messaging & Async</div><div class="skill-pills"><span class="pill p">Kafka</span><span class="pill">Celery</span><span class="pill">RabbitMQ</span><span class="pill">Event-Driven</span></div></div>
+    </div>
+    <div class="terminal">
+      <div class="term-bar"><div class="td"></div><div class="td"></div><div class="td"></div></div>
+      <div class="term-body">
+        <div><span class="tp">❯</span> <span class="tc">cat profile.json</span></div>
+        <div><span class="to">{</span></div>
+        <div><span class="to">&nbsp;&nbsp;"role": </span><span class="tv">"Backend Platform Engineer"</span><span class="to">,</span></div>
+        <div><span class="to">&nbsp;&nbsp;"stack": </span><span class="tv">["Go", "Kafka", "DynamoDB", "AWS"]</span><span class="to">,</span></div>
+        <div><span class="to">&nbsp;&nbsp;"throughput": </span><span class="tv">"3000+ rps"</span><span class="to">,</span></div>
+        <div><span class="to">&nbsp;&nbsp;"p95_latency": </span><span class="tv">"400ms"</span><span class="to">,</span></div>
+        <div><span class="to">&nbsp;&nbsp;"uptime": </span><span class="tv">"99.9999%"</span><span class="to">,</span></div>
+        <div><span class="to">&nbsp;&nbsp;"target": </span><span class="tv">"META SDE-2 · London"</span></div>
+        <div><span class="to">}</span></div>
+        <div style="margin-top:4px"><span class="tp">❯</span> <span class="tcursor"></span></div>
       </div>
     </div>
+  </section>
 
-    <!-- Frysto -->
-    <div class="exp-block r">
-      <div class="exp-side">
-        <div class="exp-date">Jan 2020 — Jul 2022</div>
-        <div class="exp-co">Frysto</div>
-        <div class="exp-type">Hyper-Local Marketplace</div>
-      </div>
-      <div class="exp-main">
-        <div class="exp-role">Software Engineer</div>
-        <div class="exp-tags">
-          <span class="exp-tag">Node.js</span>
-          <span class="exp-tag">Express</span>
-          <span class="exp-tag">MongoDB</span>
-        </div>
-        <div class="exp-highlights">
-          <div class="exp-hl">
-            <div class="metric">4K+ SKUs</div>
-            <div class="desc">Architected the full marketplace backend — catalog, checkout, payments, and order fulfillment.</div>
-          </div>
-          <div class="exp-hl">
-            <div class="metric">Event-Driven</div>
-            <div class="desc">Cloud telephony pipelines for merchant-customer communication, cutting coordination overhead.</div>
-          </div>
-        </div>
-      </div>
+  <section>
+    <div class="section-label">Recognition</div>
+    <h2>Achievements</h2>
+    <div class="achieve-list">
+      <div class="achieve-item"><div class="achieve-rank">#832</div><div><div class="achieve-title">LeetCode Biweekly Contest 125</div><div class="achieve-sub">450+ problems solved across all difficulty levels</div></div></div>
+      <div class="achieve-item"><div class="achieve-rank">#883</div><div><div class="achieve-title">CodeKaze 2022</div><div class="achieve-sub">Top 0.9% of 100,000+ participants</div></div></div>
+      <div class="achieve-item"><div class="achieve-rank">#1239</div><div><div class="achieve-title">Google Hash Code 2020</div><div class="achieve-sub">Top ranks among 15,000+ international teams</div></div></div>
+      <div class="achieve-item"><div class="achieve-rank">YC</div><div><div class="achieve-title">Y Combinator Startup School 2021</div><div class="achieve-sub">Accepted from global applicant pool</div></div></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- SKILLS -->
-<section class="sec-pad" id="skills">
-  <div class="r">
-    <div class="sec-label"><span class="dot"></span> Technical skills</div>
-    <div class="sec-title">My toolkit, <em>refined.</em></div>
-  </div>
-
-  <div class="skills-layout">
-    <div class="skill-card r-s">
-      <div class="icon">⚡</div>
-      <h3>Languages</h3>
-      <div class="skill-pills">
-        <span class="s-pill python">Python</span>
-        <span class="s-pill">Go</span>
-        <span class="s-pill">JavaScript</span>
-        <span class="s-pill">C</span>
-        <span class="s-pill">C#</span>
-      </div>
+  <section id="contact" style="border-bottom:none">
+    <div class="section-label">Let's talk</div>
+    <h2>Get in Touch</h2>
+    <p style="color:var(--muted);font-size:14px;margin-top:-16px;margin-bottom:0">Open to Backend Platform / Infrastructure SDE-2 roles in London.</p>
+    <div class="contact-grid">
+      <a href="mailto:sidmashhood2@gmail.com" class="contact-card"><div class="contact-icon">✉</div><div><div class="contact-label">Email</div><div class="contact-val">sidmashhood2@gmail.com</div></div></a>
+      <a href="https://linkedin.com/in/mashhood-siddiqui" class="contact-card"><div class="contact-icon">in</div><div><div class="contact-label">LinkedIn</div><div class="contact-val">linkedin.com/in/mashhood-siddiqui</div></div></a>
+      <a href="https://github.com/mashhood-siddiqui" class="contact-card"><div class="contact-icon">⌥</div><div><div class="contact-label">GitHub</div><div class="contact-val">github.com/mashhood-siddiqui</div></div></a>
+      <a href="tel:+919956406194" class="contact-card"><div class="contact-icon">✆</div><div><div class="contact-label">Phone</div><div class="contact-val">+91 99564-06194</div></div></a>
     </div>
-    <div class="skill-card r-s">
-      <div class="icon">🏗️</div>
-      <h3>Frameworks</h3>
-      <div class="skill-pills">
-        <span class="s-pill python">Flask</span>
-        <span class="s-pill python">Django</span>
-        <span class="s-pill">Go Fiber</span>
-        <span class="s-pill">ASP.NET</span>
-        <span class="s-pill">Express</span>
-      </div>
-    </div>
-    <div class="skill-card r-s">
-      <div class="icon">🗄️</div>
-      <h3>Datastores</h3>
-      <div class="skill-pills">
-        <span class="s-pill">PostgreSQL</span>
-        <span class="s-pill">DynamoDB</span>
-        <span class="s-pill">MongoDB</span>
-        <span class="s-pill">Redis</span>
-        <span class="s-pill">Elasticsearch</span>
-        <span class="s-pill">Memcache</span>
-      </div>
-    </div>
-    <div class="skill-card r-s">
-      <div class="icon">🔗</div>
-      <h3>Distributed Systems</h3>
-      <div class="skill-pills">
-        <span class="s-pill">Apache Kafka</span>
-        <span class="s-pill">gRPC</span>
-        <span class="s-pill">Microservices</span>
-        <span class="s-pill">Idempotency</span>
-        <span class="s-pill">Tracing</span>
-      </div>
-    </div>
-    <div class="skill-card r-s">
-      <div class="icon">☁️</div>
-      <h3>Cloud & DevOps</h3>
-      <div class="skill-pills">
-        <span class="s-pill">AWS</span>
-        <span class="s-pill">Docker</span>
-        <span class="s-pill">Kubernetes</span>
-        <span class="s-pill">CI/CD</span>
-        <span class="s-pill">CloudFront</span>
-      </div>
-    </div>
-    <div class="skill-card r-s">
-      <div class="icon">📡</div>
-      <h3>Async & Messaging</h3>
-      <div class="skill-pills">
-        <span class="s-pill python">Celery</span>
-        <span class="s-pill">RabbitMQ</span>
-        <span class="s-pill">Kafka Streams</span>
-        <span class="s-pill">Event Sourcing</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ACHIEVEMENTS -->
-<section class="sec-pad" id="achievements" style="background: var(--bg2);">
-  <div class="r">
-    <div class="sec-label"><span class="dot"></span> Achievements</div>
-    <div class="sec-title">Beyond the <em>day job.</em></div>
-  </div>
-
-  <div class="ach-list">
-    <div class="ach-card r">
-      <div class="ach-rank">#832</div>
-      <div class="ach-info">
-        <h4>LeetCode Biweekly Contest 125</h4>
-        <p>450+ problems solved — sharpening algorithmic intuition every day</p>
-      </div>
-    </div>
-    <div class="ach-card r">
-      <div class="ach-rank">#883</div>
-      <div class="ach-info">
-        <h4>CodeKaze 2022</h4>
-        <p>Top 1% — ranked among 100,000+ participants</p>
-      </div>
-    </div>
-    <div class="ach-card r">
-      <div class="ach-rank">#1239</div>
-      <div class="ach-info">
-        <h4>Google Hash Code 2020</h4>
-        <p>Top 10% out of 15,000+ teams worldwide</p>
-      </div>
-    </div>
-    <div class="ach-card r">
-      <div class="ach-rank">YC</div>
-      <div class="ach-info">
-        <h4>Y Combinator Startup School</h4>
-        <p>2021 cohort — learning to think like a founder</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="sec-pad contact" id="contact">
-  <div class="r">
-    <div class="sec-label" style="justify-content: center;"><span class="dot"></span> Let's connect</div>
-    <div class="contact-heading">
-      Got a problem that<br>needs <em>not to break?</em>
-    </div>
-    <p class="contact-sub">
-      Always up for conversations about distributed systems, payment architecture, or your next engineering challenge.
-    </p>
-    <div class="contact-links">
-      <a href="mailto:sidmashhood2@gmail.com" class="c-link">
-        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        Email
-      </a>
-      <a href="tel:+919956406194" class="c-link">
-        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-        Phone
-      </a>
-      <a href="#" class="c-link">
-        <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-        LinkedIn
-      </a>
-      <a href="#" class="c-link">
-        <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
-        GitHub
-      </a>
-    </div>
-  </div>
-</section>
+  </section>
+</main>
 
 <footer>
-  Crafted with care — Mashhood Siddiqui © 2025
+  <span>Mashhood Siddiqui · 2026</span>
+  <span style="color:var(--green)">● available</span>
 </footer>
-
-<script>
-// Scroll Progress
-const progressEl = document.getElementById('progress');
-window.addEventListener('scroll', () => {
-  const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-  progressEl.style.width = pct + '%';
-});
-
-// Nav scroll
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
-});
-
-// Reveal on scroll
-const revealEls = document.querySelectorAll('.r, .r-l, .r-r, .r-s');
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('v'), i * 70);
-      obs.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
-revealEls.forEach(el => obs.observe(el));
-
-// Counter animation
-const counters = document.querySelectorAll('.counter');
-const cObs = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      const target = parseFloat(el.dataset.target);
-      const isFloat = target % 1 !== 0;
-      const isLarge = target >= 100;
-      const dur = 2200;
-      const start = performance.now();
-      function tick(now) {
-        const t = Math.min((now - start) / dur, 1);
-        const e = 1 - Math.pow(1 - t, 4);
-        const v = e * target;
-        if (isFloat) el.textContent = v.toFixed(1);
-        else if (isLarge) el.textContent = Math.floor(v).toLocaleString();
-        else el.textContent = Math.floor(v);
-        if (t < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-      cObs.unobserve(el);
-    }
-  });
-}, { threshold: 0.5 });
-counters.forEach(el => cObs.observe(el));
-
-// Skill card mouse glow
-document.querySelectorAll('.skill-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    card.style.setProperty('--x', ((e.clientX - r.left) / r.width * 100) + '%');
-    card.style.setProperty('--y', ((e.clientY - r.top) / r.height * 100) + '%');
-  });
-});
-
-// Smooth nav scroll
-document.querySelectorAll('.nav-links a').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-  });
-});
-
-// Hero parallax
-window.addEventListener('scroll', () => {
-  const s = window.scrollY;
-  const hero = document.querySelector('.hero');
-  if (s < window.innerHeight) {
-    hero.style.transform = `translateY(${s * 0.25}px)`;
-    hero.style.opacity = 1 - (s / window.innerHeight) * 0.7;
-  }
-});
-</script>
 
 </body>
 </html>
